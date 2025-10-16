@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    while (true) {
+      let user = prompt('1.请输入"+-*/"中的一个运算符\n2.输入q退出')
+      if (user === 'q') {
+        break
+      } else if (user === '+') {
+        let a = +prompt('请输入第一个数字')
+        let b = +prompt('请输入第二个数字')
+        alert('您计算两个数字的和为:' + (a + b))
+        continue
+      } else if (user === '-') {
+        let a = +prompt('请输入第一个数字')
+        let b = +prompt('请输入第二个数字')
+        alert('您计算两个数字的差为:' + (a - b))
+        continue
+      } else if (user === '*') {
+        let a = +prompt('请输入第一个数字')
+        let b = +prompt('请输入第二个数字')
+        alert('您计算两个数字的积为:' + (a * b))
+        continue
+      } else if (user === '/') {
+        let a = +prompt('请输入第一个数字')
+        let b = +prompt('请输入第二个数字')
+        alert('您计算两个数字的商为:' + (a / b))
+        continue
+      }
+    }
+  </script>
+</body>
+
+</html>
