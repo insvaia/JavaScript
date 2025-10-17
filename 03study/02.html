@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let arr = [0, 0, 0, 0, 0]
+    for (let i = 0; i < arr.length; i++) {
+      while (true) {
+        let age = +prompt(`请输入第 ${i + 1} 个人的年龄（0-100）`)
+        if (age >= 0 && age <= 100 && !isNaN(age)) {
+          arr[i] = age
+          break
+        } else {
+          alert('年龄必须是 0-100 之间的数字，请重新输入！')
+        }
+      }
+    }
+    // 打印出所有成年人的年龄
+    document.write('<h3>成年人年龄</h3>')
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] >= 18) {
+        document.write(`<span>${arr[i]}</span><br>`)
+      }
+    }
+    // 打印出所有人的总年龄
+    let sum = 0
+    for (let i = 0; i < arr.length; i++) {
+      sum += arr[i]
+    }
+    document.write(`<span>总年龄为：${sum}</span><br>`)
+    // 打印出所有人的平均年龄
+    let avg = sum / arr.length
+    document.write(`<span>平均年龄为：${avg}</span><br>`)
+
+    // 打印出最大年龄
+    for (let i = 0; i < arr.length; i++) {
+      let max = arr[i]
+      if (arr[i] > max) {
+        max = arr[i]
+      }
+      if (i === arr.length - 1) {
+        document.write(`<span>最大年龄为：${max}</span><br>`)
+      }
+    }
+
+    // 打印出最小年龄
+    for (let i = 0; i < arr.length; i++) {
+      let min = arr[i]
+      if (arr[i] < min) {
+        min = arr[i]
+      }
+      if (i === arr.length - 1) {
+        document.write(`<span>最小年龄为：${min}</span><br>`)
+      }
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 示例数组（可替换为任意数组）
+    const arr = [10, 20, 10, 30, 10];
+    const indexes = []; // 存储所有10的下标
+
+    // 遍历数组收集所有10的下标
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === 10) {
+        indexes.push(i);
+      }
+    }
+
+    // 有结果则打印所有下标，否则打印-1
+    if (indexes.length > 0) {
+      document.write(indexes); // 示例中输出 [0, 2, 4]
+    } else {
+      document.write(-1);
+    }
+  </script>
+
+</body>
+
+</html>
