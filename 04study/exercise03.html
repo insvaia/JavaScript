@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function getRemaining(a, b, c) {
+      a = +prompt("输入银行卡余额")
+      b = +prompt("输入当月食宿消费金额")
+      c = +prompt("输入当月生活消费金额")
+      return a - b - c
+    }
+    let result = getRemaining(0, 0, 0);
+    console.log(result);
+  </script>
+</body>
+
+</html>

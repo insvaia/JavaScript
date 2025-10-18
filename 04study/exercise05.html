@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function some(ele, arr = []) {
+      // 里面写业务逻辑
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === ele) {
+          return true
+        }
+      }
+      return false
+    }
+    let re = some('荔枝', ['苹果', '香蕉', '橘子', '荔枝', '梨子'])
+    console.log(re) // true
+    let re1 = some('榴莲', ['苹果', '香蕉', '橘子', '荔枝', '梨子'])
+    console.log(re1)
+  </script>
+</body>
+
+</html>

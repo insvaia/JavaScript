@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let age = 18
+    console.log(111 || age++)
+    // 因为111为真，所以age++不会执行 此时age为18
+    console.log(age)
+
+    console.log(111 && 222)//都是真，返回最后一个值
+    console.log(111 || 222)//都是真，返回第一个值
+
+
+    function fn(x, y) {
+      x = x || 0
+      y = y || 0
+
+      console.log(x + y)
+    }
+    fn(10, 20)
+
+
+  </script>
+</body>
+
+</html>

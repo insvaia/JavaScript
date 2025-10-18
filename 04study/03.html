@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let second = +prompt('请输入秒数：')
+    function getTime(time) {
+
+      // h = parseInt(time / 60 / 60);
+      // m = parseInt(time / 60 % 60);
+      // s = parseInt(time % 60);
+
+      // h = h < 10 ? '0' + h : h;
+      // m = m < 10 ? '0' + m : m;
+      // s = s < 10 ? '0' + s : s;
+      // return `${h}时${m}分${s}秒`;
+      let h = parseInt(time / 60 / 60)
+      let m = parseInt(time / 60 % 60)
+      let s = parseInt(time % 60)
+      h = h < 10 ? '0' + h : h
+      m = m < 10 ? '0' + m : m
+      s = s < 10 ? '0' + s : s
+      return `${h}时${m}分${s}秒`
+    }
+
+    console.log(getTime(second));
+  </script>
+</body>
+
+</html>
