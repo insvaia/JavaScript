@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <img src="./images/1.webp" alt="">
+  <script>
+    function getRadom(M, N) {
+      return Math.floor(Math.random() * (N - M + 1)) + M;
+    }
+    //获取图片对象
+    const img = document.querySelector('img')
+    // 随机数
+    const radom = getRadom(1, 6)
+    // 改变图片的src属性
+    img.src = `./images/${radom}.webp`
+  </script>
+</body>
+
+</html>
