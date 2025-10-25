@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .box {
+            width: 37.5rem;
+            margin: 3.125rem auto;
+            display: flex;
+            font-size: 1.5625rem;
+            line-height: 2.5rem;
+        }
+
+        .qs {
+
+            width: 28.125rem;
+            height: 2.5rem;
+            color: red;
+
+        }
+
+        .btns {
+            text-align: center;
+        }
+
+        .btns button {
+            width: 7.5rem;
+            height: 2.1875rem;
+            margin: 0 3.125rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>随机点名</h2>
+    <div class="box">
+        <span>名字是：</span>
+        <div class="qs">这里显示姓名</div>
+    </div>
+    <div class="btns">
+        <button class="start">开始</button>
+        <button class="end">结束</button>
+    </div>
+
+    <script>
+        // 数据数组
+        const arr = ['常刘原', '朱义科', '牛硕', '蔡一藩', '李勇翔']
+        const btnStart = document.querySelector('.start')
+        const btnEnd = document.querySelector('.end')
+        const qs = document.querySelector('.qs')
+
+        let Random = 0
+        let n = 0
+
+        btnStart.addEventListener('click', function () {
+            n = setInterval(function () {
+                Random = parseInt(Math.random() * arr.length)
+                qs.innerHTML = arr[Random]
+            }, 40)
+            // 如果数组里面只剩下一个元素了，则结束定时器 禁用两个按钮
+            if (arr.length === 1) {
+                btnStart.disabled = true
+                btnEnd.disabled = true
+            }
+        })
+
+        btnEnd.addEventListener('click', function () {
+            clearInterval(n)
+            arr.splice(Random, 1)
+        })
+
+    </script>
+</body>
+
+</html>
