@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .card {
+
+      position: relative;
+      margin: 100px auto;
+      width: 250px;
+      height: 300px;
+      background-color: #9D2C2C;
+    }
+
+    .card .title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    .card h2 {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 35px;
+      color: #fff;
+    }
+
+    .card .clock {
+      position: absolute;
+      top: 140px;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      justify-content: center;
+      text-align: center;
+      line-height: 40px;
+      font-size: 20px;
+      color: #fff;
+      /* gap: 10px; */
+    }
+
+    .card .clock span {
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+      margin: 0 5px;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+    }
+
+    .card .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      text-align: center;
+      line-height: 70px;
+      font-size: 25px;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="title">
+      今天是2025年11月11日
+    </div>
+    <h2>下班倒计时</h2>
+
+    <p class="clock">
+      <span id="hour">00</span>
+      <i>:</i>
+      <span id="minutes">25</span>
+      <i>:</i>
+      <span id="scond">20</span>
+    </p>
+
+    <div class="footer">18:30:00下课</div>
+  </div>
+  <script>
+    function randomColor(flag = true) {
+      let str = '#'
+      let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f']
+      if (flag) {
+        for (let i = 0; i < 6; i++) {
+          let index = Math.floor(Math.random() * arr.length)
+          str += arr[index]
+        }
+        return str
+      } else {
+        let r = Math.floor(Math.random() * 256)
+        let g = Math.floor(Math.random() * 256)
+        let b = Math.floor(Math.random() * 256)
+
+        return `rgb(${r},${g},${b})`
+      }
+    }
+    const card = document.querySelector('.card')
+    card.style.backgroundColor = randomColor()
+
+    //  封装函数
+    function getCountTime() {
+      // 得到当前的时间戳
+      const now = +new Date()
+      // 得到将来的时间戳
+      const last = +new Date('2025-10-24 18:30:00')
+      // 得到剩余的时间戳count
+      const count = (last - now) / 1000
+
+      // console.log(count);
+      // h=parseInt(总秒数/60/60%24)
+      // m=parseInt(总秒数/60%60)
+      // s=parseInt(总秒数%60)
+
+      let h = parseInt(count / 60 / 60 % 24)
+      let m = parseInt(count / 60 % 60)
+      let s = parseInt(count % 60)
+      h = h < 10 ? '0' + h : h
+      m = m < 10 ? '0' + m : m
+      s = s < 10 ? '0' + s : s
+      document.querySelector('#hour').innerHTML = h
+      document.querySelector('#minutes').innerHTML = m
+      document.querySelector('#scond').innerHTML = s
+    }
+
+    // 先调用一次
+    getCountTime()
+    // 开启定时器
+    setInterval(getCountTime, 1000)
+  </script>
+</body>
+
+</html>

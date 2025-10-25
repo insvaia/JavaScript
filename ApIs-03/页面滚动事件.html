@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      height: 2000px;
+    }
+
+    div {
+      display: none;
+      overflow: scroll;
+      margin: 100px;
+      width: 200px;
+      height: 200px;
+      border: 1px solid pink;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+    我里面有很多文字
+  </div>
+  <script>
+    const div = document.querySelector('div')
+    window.addEventListener('scroll', function () {
+      // console.log('我滚了')
+      // 获取html标签
+      // console.log(document.documentElement.scrollTop)
+      const n = document.documentElement.scrollTop
+      if (n >= 100) {
+        div.style.display = 'block'
+      } else {
+        div.style.display = 'none'
+      }
+    })
+  </script>
+</body>
+
+</html>
