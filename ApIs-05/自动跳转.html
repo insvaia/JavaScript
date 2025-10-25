@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <a href="https://www.baidu.com">操作成功<span>5</span>秒后自动跳转</a>
+  <script>
+    const a = document.querySelector('a')
+    let num = 5
+    let TimeId = setInterval(() => {
+      num--
+      a.innerHTML = `操作成功${num}秒后自动跳转`
+      if (num <= 0) {
+        clearInterval(TimeId)
+        location.href = 'https://www.baidu.com'
+      }
+    }, 1000)
+  </script>
+</body>
+
+</html>
