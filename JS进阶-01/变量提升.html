@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //把所有的var声明的变量提升到当前作用域的最前面
+    //只提升变量，不提升赋值
+    console.log(a)//undefined
+    var a = 10
+    //函数提升
+    //函数声明会提升到当前作用域的最前面
+    //只提升函数声明，不提升函数调用
+
+    fun()//报错，因为函数调用没有提升
+    var fun = function () {
+      console.log(a)
+    }
+  </script>
+</body>
+
+</html>

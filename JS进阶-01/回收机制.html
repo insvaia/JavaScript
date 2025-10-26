@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 垃圾回收机制
+    // 1. 引用计数算法
+    let person = {
+      name: '张三',
+      age: 18
+    }
+    let p = person
+    person = 1
+    p = null
+    //1.1致命的问题: 循环引用
+    function fn() {
+      let obj1 = {}
+      let obj2 = {}
+      obj1.info = obj1
+      obj2.info = obj2
+      return '引用计数无法回收'
+    }
+    fn()
+    // 2. 标记清除算法
+      
+    // 3. 引用图算法
+
+  </script>
+</body>
+
+</html>

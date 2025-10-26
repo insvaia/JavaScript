@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>俄罗斯方块</title>
+  <style>
+    /* 游戏容器样式 */
+    #game {
+      display: inline-block;
+      border: 2px solid #333;
+    }
+
+    /* 每一行的样式 */
+    .row {
+      display: flex;
+    }
+
+    /* 每个方块的样式（空白/填充） */
+    .cell {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #eee;
+    }
+
+    .filled {
+      background: #4a90e2;
+    }
+
+    /* 方块颜色 */
+    .fixed {
+      background: #5cb85c;
+    }
+
+    /* 固定后的方块颜色 */
+    #score {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="score">分数: 0</div>
+  <div id="game"></div>
+
+  <script>
+    // 1. 游戏配置
+    const ROWS = 20; // 行数
+    const COLS = 10; // 列数
+    let score = 0; // 分数
+    let gameInterval; // 自动下落的定时器
+    let isGameOver = false;
+
+    // 2. 初始化游戏面板（二维数组，0=空白，1=活动方块，2=固定方块）
+    let board = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+
+    // 3. 定义所有方块形状（I、O、T、L、J、S、Z）
+    // 每个形状是一个二维数组，1 表示方块存在的位置
+    const shapes = [
+      [[1, 1, 1, 1]], // I
+      [[1, 1], [1, 1]], // O
+      [[0, 1, 0], [1, 1, 1]], // T
+      [[0, 0, 1], [1, 1, 1]], // L
+      [[1, 0, 0], [1, 1, 1]], // J
+      [[0, 1, 1], [1, 1, 0]], // S
+      [[1, 1, 0], [0, 1, 1]]  // Z
+    ];
+
+    // 4. 当前方块的状态（形状、位置、颜色）
+    let currentShape = null;
+    let currentRow = 0;
+    let currentCol = 0;
+
+    // 5. 初始化游戏
+    function initGame() {
+      createBoard(); // 渲染面板
+      spawnShape();  // 生成新方块
+      startAutoDrop(); // 开始自动下落
+      addKeyListener(); // 监听键盘事件
+    }
+
+    // 6. 渲染游戏面板到页面
+    function createBoard() {
+      const gameEl = document.getElementById('game');
+      gameEl.innerHTML = ''; // 清空面板
+
+      // 遍历二维数组，创建每个单元格
+      for (let r = 0; r < ROWS; r++) {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'row';
+        for (let c = 0; c < COLS; c++) {
+          const cellEl = document.createElement('div');
+          cellEl.className = 'cell';
+          // 根据面板值添加样式（活动方块/固定方块）
+          if (board[r][c] === 1) cellEl.classList.add('filled');
+          if (board[r][c] === 2) cellEl.classList.add('fixed');
+          rowEl.appendChild(cellEl);
+        }
+        gameEl.appendChild(rowEl);
+      }
+    }
+
+    // 7. 随机生成一个新方块
+    function spawnShape() {
+      // 随机选一个形状
+      const shapeIndex = Math.floor(Math.random() * shapes.length);
+      currentShape = shapes[shapeIndex];
+      // 初始位置：顶部中间
+      currentRow = 0;
+      currentCol = Math.floor(COLS / 2) - Math.floor(currentShape[0].length / 2);
+
+      // 检查是否游戏结束（新方块刚生成就碰撞）
+      if (checkCollision(currentShape, currentRow, currentCol)) {
+        isGameOver = true;
+        clearInterval(gameInterval);
+        alert(`游戏结束！最终分数：${score}`);
+        return;
+      }
+
+      // 把新方块画到面板上
+      updateBoard();
+    }
+
+    // 8. 更新面板（将当前方块的位置标记为活动方块）
+    function updateBoard() {
+      // 先清空所有活动方块（重置为 0 或固定方块 2）
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          if (board[r][c] === 1) board[r][c] = 0;
+        }
+      }
+
+      // 绘制当前方块（标记为 1）
+      for (let r = 0; r < currentShape.length; r++) {
+        for (let c = 0; c < currentShape[r].length; c++) {
+          if (currentShape[r][c] === 1) {
+            const boardRow = currentRow + r;
+            const boardCol = currentCol + c;
+            if (boardRow >= 0 && boardCol >= 0) { // 避免负数索引
+              board[boardRow][boardCol] = 1;
+            }
+          }
+        }
+      }
+
+      createBoard(); // 重新渲染面板
+    }
+
+    // 9. 碰撞检测（判断方块移动/旋转后是否撞墙或撞固定方块）
+    function checkCollision(shape, row, col) {
+      for (let r = 0; r < shape.length; r++) {
+        for (let c = 0; c < shape[r].length; c++) {
+          if (shape[r][c] === 1) {
+            const newRow = row + r;
+            const newCol = col + c;
+            // 撞墙（超出边界）或撞固定方块（碰到 2）
+            if (
+              newRow >= ROWS || // 超出底部
+              newCol < 0 || newCol >= COLS || // 超出左右边界
+              (newRow >= 0 && board[newRow][newCol] === 2) // 碰到固定方块
+            ) {
+              return true; // 碰撞
+            }
+          }
+        }
+      }
+      return false; // 无碰撞
+    }
+
+    // 10. 移动方块（左/右/下）
+    function move(dr, dc) {
+      if (isGameOver) return;
+
+      const newRow = currentRow + dr;
+      const newCol = currentCol + dc;
+
+      // 如果移动后不碰撞，就更新位置
+      if (!checkCollision(currentShape, newRow, newCol)) {
+        currentRow = newRow;
+        currentCol = newCol;
+        updateBoard();
+        return true; // 移动成功
+      } else if (dr === 1) {
+        // 如果向下移动碰撞，说明方块落地，需要固定
+        fixShape();
+      }
+      return false;
+    }
+
+    // 11. 旋转方块（将形状顺时针旋转 90 度）
+    function rotate() {
+      if (isGameOver) return;
+
+      // 生成旋转后的形状（矩阵转置后反转每一行）
+      const rotated = [];
+      for (let c = 0; c < currentShape[0].length; c++) {
+        const newRow = [];
+        for (let r = currentShape.length - 1; r >= 0; r--) {
+          newRow.push(currentShape[r][c]);
+        }
+        rotated.push(newRow);
+      }
+
+      // 如果旋转后不碰撞，就更新形状
+      if (!checkCollision(rotated, currentRow, currentCol)) {
+        currentShape = rotated;
+        updateBoard();
+      }
+    }
+
+    // 12. 固定方块（落地后将活动方块转为固定方块）
+    function fixShape() {
+      for (let r = 0; r < currentShape.length; r++) {
+        for (let c = 0; c < currentShape[r].length; c++) {
+          if (currentShape[r][c] === 1) {
+            const boardRow = currentRow + r;
+            const boardCol = currentCol + c;
+            if (boardRow >= 0) { // 避免负数索引
+              board[boardRow][boardCol] = 2; // 标记为固定方块
+            }
+          }
+        }
+      }
+
+      clearLines(); // 检查并消除满行
+      spawnShape(); // 生成新方块
+    }
+
+    // 13. 消除满行（如果某一行全是固定方块，就消除并加分）
+    function clearLines() {
+      let linesCleared = 0;
+      // 从下往上检查每一行
+      for (let r = ROWS - 1; r >= 0; r--) {
+        // 如果一行全是固定方块（没有 0 和 1）
+        if (board[r].every(cell => cell === 2)) {
+          linesCleared++;
+          // 消除当前行，上面的行下落一行
+          for (let i = r; i > 0; i--) {
+            board[i] = [...board[i - 1]]; // 复制上一行
+          }
+          board[0] = Array(COLS).fill(0); // 最顶部补一行空白
+          r++; // 重新检查当前行（因为上面的行落下来了）
+        }
+      }
+
+      // 加分（每消除一行得 100 分）
+      if (linesCleared > 0) {
+        score += linesCleared * 100;
+        document.getElementById('score').textContent = `分数: ${score}`;
+      }
+    }
+
+    // 14. 自动下落
+    function startAutoDrop() {
+      gameInterval = setInterval(() => {
+        move(1, 0); // 向下移动一行
+      }, 1000); // 每 1 秒下落一次
+    }
+
+    // 15. 监听键盘事件（方向键控制）
+    function addKeyListener() {
+      document.addEventListener('keydown', (e) => {
+        switch (e.key) {
+          case 'ArrowLeft': move(0, -1); break; // 左移
+          case 'ArrowRight': move(0, 1); break; // 右移
+          case 'ArrowDown': move(1, 0); break; // 下移
+          case 'ArrowUp': rotate(); break; // 旋转
+        }
+      });
+    }
+
+    // 启动游戏
+    initGame();
+  </script>
+</body>
+
+</html>
