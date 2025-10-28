@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const obj = {
+      uname: '张三',
+      age: 18,
+      hobby: ['吃饭', '睡觉', '打豆豆'],
+      obj: {
+        people: '常刘原'
+      }
+    }
+    const o = {}
+    function deepcopy(newObj, oldObj) {
+      for (let k in oldObj) {
+        if (newObj[k] instanceof Array) {
+          //处理数组问题
+          newObj[k] = []
+          deepcopy(newObj[k], oldObj[k])
+        } else if (newObj[k] instanceof Object) {
+          //处理对象问题
+          newObj[k] = {}
+          deepcopy(newObj[k], oldObj[k])
+        } else {
+          newObj[k] = oldObj[k]
+        }
+      }
+    }
+    deepcopy(o, obj)
+    o.obj = { 'people': '牛硕' }
+    console.log(o)
+    console.log(obj)
+  </script>
+</body>
+
+</html>
